@@ -1,0 +1,136 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+  <!-- Required meta tags -->
+  <meta charset="utf-8">
+  <!-- <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no"> -->
+  <title>AutoAI Insurance Prediction</title>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css">
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js"></script>
+  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js"></script>
+  <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css"
+    integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+  <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='styles/styles.css') }}">
+</head>
+
+<body style="background-color: #d2deed">
+
+      <h2>Insurance Charges Estimator</h2>
+      <p>Technologies used:<br />
+	1) AutoAI for building ML Model &emsp; 2) Watson Machine Learning <br />
+	3) Cloud Object Storage for dataset &emsp; 4) Watson Studio for building project <br />
+	5) Flask for model ineraction with web app &emsp; 6) Watson Assistant for chatbot interface <br />
+	7) Cloud functions for model interaction with chatbot
+      <p>Fill out the form or use the Chatbot to see an estimate. <b> NOTE: The form needs an active IAM token. If not please contact Admin to generate new token :) </b> </p>
+
+  <form class="text-center" style="border-style: solid; color: #757575; margin-bottom:10px" method="POST" action="/predict">
+    <table width="100%">
+      <tbody>
+          <tr>
+            <td>
+              <div class="form-field">{{ form.age.label }} {{ form.age(size=20) }}</div>
+            </td>
+          </tr>
+          <tr>
+            <td>
+                <div class="form-field ">{{ form.sex.label }} {{ form.sex }}</div>
+                <!-- <div class="form-field ">{{ form.sex.label }} {{ form.sex }}</div>
+                <select id="equalification" class="">
+                  <option id="selectHeader">--------- Select Gender --------------</option>
+                  <option value="male">{{form.sex.value}}</option>
+                  <option value="female">{{form.sex.value}}</option>
+                </select> -->
+            </td>
+          </tr>
+          <tr>
+            <td>
+              <div class="form-field ">{{ form.bmi.label }} {{ form.bmi }}</div>
+            </td>
+          </tr>
+          <tr>
+            <td>
+              <div class="form-field ">{{ form.children.label }} {{ form.children }}</div>
+            </td>
+          </tr>
+          <tr>
+            <td>
+              <div class="form-field ">{{ form.smoker.label }} {{ form.smoker }}</div>
+            </td>
+          </tr>
+          <tr>
+            <td>
+              <div class="form-field ">{{ form.region.label }} {{ form.region }}</div>
+            </td>
+          </tr>
+      </tbody>
+    </table>
+    <input id="submit" style="margin-bottom: 10px;" name="submit" type="submit" onclick="startSpinner()" value="Predict">
+    
+    <br>
+  </form>
+
+  <div class="d-flex justify-content-center">
+    <div id="loader" style="color:black; display: none;" class="spinner-border"></div>
+  </div>
+  <div class="output-container">
+    <center>
+      <div id="output">
+        <h5 id="a">Predicted Insurance Charge: </h5>
+        <h3 id="b">{{ form.abc }}$$</h3>
+      </div>
+    </center>
+  </div>
+
+  <center>
+    <img src="static/diagram.png" alt="arch-diagram">
+  </center>
+
+  <script>
+
+window.onload = function exampleFunction() { 
+  
+  // var output = document.getElementById("output");
+  // output.style.display = "none"
+} 
+
+    function startSpinner() {
+      var x = document.getElementById("loader");
+      x.style.display = "block";
+      var output = document.getElementById("output");
+      output.style.display = "none"
+      setTimeout(function () {
+        var y = document.getElementById("output");
+        var x = document.getElementById("loader");
+        var a = document.getElementById("a");
+        var b = document.getElementById("b");
+        x.style.display = "none";
+        y.style.display = "block"
+        a.style.display = "block"
+        b.style.display = "block"
+      }, 3000);
+
+    }
+
+
+  window.watsonAssistantChatOptions = {
+      integrationID: "39792cb9-bafa-43a4-93e9-41f8a7964ad5", // The ID of this integration.
+      region: "us-south", // The region your integration is hosted in.
+      serviceInstanceID: "117cf894-eaee-4000-9cb5-3f2996f4b87e", // The ID of your service instance.
+      onLoad: function(instance) { instance.render(); }
+    };
+  setTimeout(function(){
+    const t=document.createElement('script');
+    t.src="https://web-chat.global.assistant.watson.appdomain.cloud/loadWatsonAssistantChat.js";
+    document.head.appendChild(t);
+  });
+
+  </script>
+
+</body>
+
+</html>
