@@ -48,7 +48,7 @@ def predict():
         payload_scoring = {"input_data": [{"fields": ["age", "sex", "bmi",
           "children", "smoker", "region"], "values": userInput }]}
 
-        response_scoring = requests.post("https://us-south.ml.cloud.ibm.com/ml/v4/deployments/93ec87b3-874e-4307-ae91-86605cc8f2b7/predictions?version=2021-08-11", json=payload_scoring, headers=header)
+        response_scoring = requests.post("https://us-south.ml.cloud.ibm.com/ml/v4/deployments/7f300534-3cb3-49be-988d-0216cfa860c9/predictions?version=2021-08-13", json=payload_scoring, headers=header)
 
         output = json.loads(response_scoring.text)
         print(output)
